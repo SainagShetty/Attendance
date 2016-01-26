@@ -35,13 +35,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ListView g = (ListView) findViewById(R.id.gridGallery);
+        try {
+            Bundle extras = getIntent().getExtras();
+            final String mValue = extras.getString("SUBNAME");
+            Snackbar.make(getCurrentFocus(), "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+
+        }
+        catch (Exception e){}
+            ListView g = (ListView) findViewById(R.id.gridGallery);
         db=openOrCreateDatabase("SubjectDB", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS subject(name VARCHAR, pres INTEGER, abs INTEGER, tot INTEGER);");
         Cursor c=db.rawQuery("SELECT * FROM subject", null);
-
-        StringBuffer buffer=new StringBuffer();
-        Log.v(TAG, "I'm Here");
         if(c.getCount()==0)
         {
             Log.v(TAG, "No Records found");
@@ -54,25 +59,9 @@ public class MainActivity extends AppCompatActivity {
             Log.v(TAG, c.getString(0));
             mItems.add(c.getString(0));
         }
-        Cursor c1=db.rawQuery("SELECT * FROM subject", null);
-
-
-
-        if(c1.getCount()==0)
-        {
-            Log.v(TAG, "No Records found");
-        }
-        while(c1.moveToNext())
-        {
-			/*buffer.append("Rollno: "+c.getString(0)+"\n");
-			buffer.append("Name: "+c.getString(1)+"\n");
-			buffer.append("Marks: "+c.getString(2)+"\n\n");*/
-            Log.v(TAG, c1.getString(0));
-
-        }
         adap = new ItemAdapter(this, mItems);
         g.setAdapter(adap);
-
+        db.close();
         registerForContextMenu(g);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +104,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        if (id == R.id.dayList) {
 
+            Intent intent = new Intent(getApplicationContext(), DaysAttendence.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
