@@ -2,6 +2,8 @@ package com.awesome.sainag.attendence;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ public class ItemAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater infalter;
     private ArrayList<String> mItems;
+    static int co;
 
 
     private static final String TAG = "ItemAdapter";
@@ -29,8 +32,6 @@ public class ItemAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = c;
         mItems = items;
-
-        // clearCache();
     }
 
     @Override
@@ -50,11 +51,15 @@ public class ItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View v = null;
         if (v == null) {
 
             LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = li.inflate(R.layout.subject_item, null);
+            final CardView card = (CardView)v.findViewById(R.id.card_view);
+            co+=5;
+            card.setCardBackgroundColor(Color.argb( 200, (co*15)+100, (co*20)+100, (co*64)+50 ));
+
             final TextView tv = (TextView)v.findViewById(R.id.stdname);
             tv.setText(mItems.get(position));
             tv.setOnClickListener(new View.OnClickListener() {
@@ -72,5 +77,6 @@ public class ItemAdapter extends BaseAdapter {
         }
         return v;
     }
+
 }
 

@@ -69,6 +69,9 @@ public class AddSubjectActivity extends AppCompatActivity {
                 }
             }
         });
+        db=openOrCreateDatabase("SubjectDB", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS subject(name VARCHAR, pres INTEGER, abs INTEGER, tot INTEGER);");
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -93,7 +96,11 @@ public class AddSubjectActivity extends AppCompatActivity {
     {
 
         newSub.setText("");
-
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        String message = "Subject Added";
+        intent.putExtra("EXTRA", message);
+        startActivity(intent);
 
     }
 }

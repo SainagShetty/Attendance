@@ -16,8 +16,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 android:divider="@null"
-        android:dividerHeight="10.0sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:dividerHeight="15.0sp"
 
+android:padding="2dp"
     android:id="@+id/gridGallery"
     tools:listitem="@layout/subject_item"></ListView>
 
